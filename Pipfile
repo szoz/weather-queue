@@ -8,6 +8,8 @@ flask = "*"
 flasgger = "*"
 requests = "*"
 redis = "*"
+rq = "*"
+gunicorn = "*"
 
 [dev-packages]
 

@@ -23,4 +23,5 @@ def get_group_weather(cities: List[str]) -> dict:
         sleep(5)  # long processing simulation
         data[city] = get_weather(city)
 
+    print(data)  # TODO change to writing into database
     return data
