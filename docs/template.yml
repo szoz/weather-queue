@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: Boardgames
+  description: 'This API is used for requesting data collection and reading this data.'
+  version: '0.1'
+externalDocs:
+  description: Github page
+  url: https://github.com/szoz/weather-queue
+tags:
+- name: miscellaneous
+  description: miscellaneous endpoints
+paths:
+  /:
+    get:
+      tags:
+      - miscellaneous
+      summary: Return simple greeting.
+      operationId: get_root
+      parameters:
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
