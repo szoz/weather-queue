@@ -1,19 +1,21 @@
 openapi: 3.0.1
 info:
-  title: Boardgames
+  title: weather-queue
   description: 'This API is used for requesting data collection and reading this data.'
   version: '0.1'
 externalDocs:
   description: Github page
   url: https://github.com/szoz/weather-queue
 tags:
-- name: miscellaneous
-  description: miscellaneous endpoints
+  - name: miscellaneous
+    description: miscellaneous endpoints
+  - name: redis
+    description: redis debug
 paths:
   /:
     get:
       tags:
-      - miscellaneous
+        - miscellaneous
       summary: Return simple greeting.
       operationId: get_root
       parameters:
@@ -24,3 +26,44 @@ paths:
             application/json:
               schema:
                 type: object
+  /redis:
+    get:
+      tags:
+        - redis
+      summary: Return list of all Redis keys with given pattern.
+      operationId: redis_find_keys
+      parameters:
+        - name: pattern
+          in: query
+          description: Pattern for finding Redis keys
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+  /redis/{key}:
+    get:
+      tags:
+        - redis
+      summary: Return value of given Redis key.
+      operationId: redis_get_value
+      parameters:
+        - name: key
+          in: path
+          description: Redis key
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: key not found
