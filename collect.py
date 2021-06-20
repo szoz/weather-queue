@@ -20,7 +20,7 @@ def get_group_weather(cities: List[str]) -> dict:
     """Return dict with current weather data for given city list."""
     data = {}
     for city in cities:
-        sleep(5)  # long processing simulation
+        sleep(10)  # long processing simulation
         data[city] = get_weather(city)
 
     print(data)  # TODO change to writing into database

@@ -11,8 +11,8 @@ tags:
     description: miscellaneous endpoints
   - name: redis
     description: redis debug
-  - name: tasks
-    description: adding and reading tasks
+  - name: jobs
+    description: adding and reading job details
 paths:
   /:
     get:
@@ -47,6 +47,8 @@ paths:
             application/json:
               schema:
                 type: array
+                items:
+                  type: string
   /redis/{key}:
     get:
       tags:
@@ -69,12 +71,12 @@ paths:
                 type: object
         404:
           description: key not found
-  /tasks:
+  /jobs:
     post:
       tags:
-        - tasks
-      summary: Creates new task with collecting weather data for given cities list.
-      operationId: add_weather_tasks
+        - jobs
+      summary: Create new job - collecting weather data for given cities list."
+      operationId: create_job
       parameters:
         - name: cities
           in: query
@@ -82,9 +84,59 @@ paths:
           schema:
             type: string
       responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+        422:
+          description: wrong argument format
+    get:
+      tags:
+        - jobs
+      summary: Return all jobs ids grouped by job status.
+      operationId: read_all_jobs
+      responses:
         200:
           description: successful operation
           content:
             application/json:
               schema:
-                type: array
+                type: object
+                properties:
+                  started:
+                    type: string
+                  deferred:
+                    type: string
+                  finished:
+                    type: string
+                  failed:
+                    type: string
+                  scheduled:
+                    type: string
+  /jobs/{id}:
+    get:
+      tags:
+        - jobs
+      summary: Return job details based on given job id.
+      operationId: read_job
+      parameters:
+        - name: id
+          in: path
+          description: job id
+          schema:
+            type: string
+          required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: job not found
